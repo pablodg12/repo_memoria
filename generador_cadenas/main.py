@@ -2,13 +2,13 @@ import numpy as np
 import move as mv
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-from ipywidgets import interact, interactive, fixed, interact_manual
-import ipywidgets as widgets
-import scipy.stats
+from scipy import stats
+import stats2 as ps
 import copy
 import os
 import sys
 import math
+import bisect
 
 def algoritmo_test(chain,d):
     g = chain
@@ -228,11 +228,17 @@ def sigmoide(x,a):
     #return(a*x/np.sqrt(1+x**2))
     return(math.tanh(x*a))
 
-def get_label(x,y,z,rcut,L):
-    ratio = math.ceil(L/rcut)
-    x = math.floor(x/rcut)
-    y = math.floor(y/rcut)
-    z = math.floor(z/rcut)
+def get_label(x,y,z,rcut2,L):
+    ratio = math.ceil(L/rcut2)
+    x = math.floor(x/rcut2)
+    y = math.floor(y/rcut2)
+    z = math.floor(z/rcut2)
+    if x == ratio:
+        x = x - 1
+    if y == ratio:
+        y = y - 1
+    if z == ratio:
+        z = z - 1
     return(z*ratio**2 + y*ratio + x)
 
 def same_algorithm(N,M,phi,ee,tol,name,pbc=True):
@@ -548,7 +554,8 @@ def same_algorithm(N,M,phi,ee,tol,name,pbc=True):
         cadena_coeficiente = []
         true_chain = None
         while(i <=M-1):
-            print(str(i)+" Molecula de la cadena: " + str(j))
+            if i%100==0:
+                print(str(i)+" Molecula de la cadena: " + str(j))
             drop = 1
             emn = 1     
             point_a = copy.deepcopy(Data[j][i-3])
@@ -601,7 +608,7 @@ def same_algorithm(N,M,phi,ee,tol,name,pbc=True):
             Data[j][i][2] = lo*np.cos(Tho)
             Data[j][i] = mv.traslation(np.dot(np.linalg.inv(rot_matrix_x),np.dot(np.linalg.inv(rot_matrix_y),np.dot(np.linalg.inv(rot_matrix_z),Data[j][i]))),Data[j][i-1]) 
             s = True
-            angulos_test.append(r_phi)
+            #angulos_test.append(r_phi)
             while( Data[j][i][0] >=L or Data[j][i][1]>=L or Data[j][i][2]>=L or Data[j][i][0] <= 0 or Data[j][i][1]<=0 or Data[j][i][2]<=0 or s):
                 temp_10 = []
                 temp_10_index = []
@@ -612,8 +619,9 @@ def same_algorithm(N,M,phi,ee,tol,name,pbc=True):
                 temporal_angles = []
                 temp_final_coord = []
                 counter = 0
-                #test_test = np.linspace(0,2*np.pi,50)
-                for temporal_angles in range(0,50):
+                #angulos_test = 
+                angulos_test.sort()
+                for temporal_angles in range(0,25):
                     r_phi = np.random.uniform(0,2*np.pi,1)[0]
                     tmp_molecule = [lo*np.sin(Tho)*np.cos(r_phi),
                                     lo*np.sin(Tho)*np.sin(r_phi),
@@ -637,14 +645,15 @@ def same_algorithm(N,M,phi,ee,tol,name,pbc=True):
                     Data[j][i][0] = tmp_molecule[0]
                     Data[j][i][1] = tmp_molecule[1]
                     Data[j][i][2] = tmp_molecule[2]
-                    angulos_test[-1] = r_phi
+                    #angulos_test[-1] = r_phi
                     if true_chain == None:
                         bb_w = ((i+1)*ee/M - calculate_end_to_end(Data[j],L,i,False))**2
                     else:
                         eec, coord = calculate_end_to_end_optimize(Data[j][i],L,i,true_chain)
                         bb_w = ((i+1)*ee/M - eec)**2
                         temp_final_coord.append(coord)
-                    bb_w2 = (scipy.stats.ks_2samp(phi,angulos_test)[1])
+                    new_list = angulos_test[:]
+                    bb_w2 = (ps.ks_2samp(phi,new_list,r_phi)[1])
                     temp_10_end_to_end.append(bb_w)
                     temp_10_index.append(bb_w2)
 
@@ -742,7 +751,8 @@ def same_algorithm(N,M,phi,ee,tol,name,pbc=True):
                     drop = drop + np.random.randint(1,99)
                     break
             if emn == 1:
-                angulos_test[(i-3)] = molecule_index[2]
+                #angulos_test[(i-3)] = molecule_index[2]
+                angulos_test.append(molecule_index[2])
                 label[j,i] = get_label(Data[j][i][0],Data[j][i][1],Data[j][i][2],rcut2,L)
                 i = i + 1
                 if true_chain == None:
@@ -754,7 +764,7 @@ def same_algorithm(N,M,phi,ee,tol,name,pbc=True):
             if emn == 0:
                 emn = 1
                 i = i - drop
-                angulos_test = angulos_test[0:(i-3)]
+                #angulos_test = angulos_test[0:(i-3)]
                 if true_chain != None:
                     true_chain = true_chain[0:i]
                 if i < 3:
@@ -767,6 +777,7 @@ def same_algorithm(N,M,phi,ee,tol,name,pbc=True):
             target = calculate_end_to_end(Data[j],L)
             np.save("restart_"+name+".npy",Data)
             print(target)
+            print(stats.ks_2samp(phi,angulos_test)[1])
             j= j + 1
     return(Data,label)
 
@@ -774,7 +785,7 @@ def same_algorithm(N,M,phi,ee,tol,name,pbc=True):
 if __name__ == '__main__':
 	nombre_salida = "data"+sys.argv[1]+".npy"
 	print(nombre_salida)
-	g = open("c.txt").read().split("\n")
+	g = open("/home/pibarra/generador_cadenas/repo_memoria/generador_cadenas/c.txt").read().split("\n")
 	data = {}
 	for c in g:
     		temporal = c.split(" ")
@@ -806,5 +817,7 @@ if __name__ == '__main__':
     		r = r + a
     		theta = theta + b
     		phi = phi + c
-	datita,_ = same_algorithm(10,int(sys.argv[3]),phi,int(sys.argv[2]),0.05,nombre_salida,True)  
+	phi = np.sort(phi)
+	datita,_ = same_algorithm(int(sys.argv[4]),int(sys.argv[3]),phi,int(sys.argv[2]),0.05,nombre_salida,True)  
 	np.save(nombre_salida,datita)
+

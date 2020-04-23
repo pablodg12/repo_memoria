@@ -1,0 +1,32 @@
+data1_20_1000_300K_25.npy
+3
+(array([1787, 1798, 1803, 2236, 2241, 4593, 4600]),)
+4
+(array([3334]),)
+6
+(array([4075, 4080, 4085, 5023]),)
+7
+(array([7912, 7918, 7924]),)
+8
+(array([  28, 2399, 2405, 4030, 4041, 4051]),)
+9
+(array([5308, 5315, 5323]),)
+84.90802330583061
+L: 84.908
+Cadena: 0
+100 Molecula de la cadena: 0
+200 Molecula de la cadena: 0
+300 Molecula de la cadena: 0
+400 Molecula de la cadena: 0
+500 Molecula de la cadena: 0
+600 Molecula de la cadena: 0
+700 Molecula de la cadena: 0
+800 Molecula de la cadena: 0
+900 Molecula de la cadena: 0
+25483.38131751436
+0.9002535957048383
+Cadena: 1
+100 Molecula de la cadena: 1
+200 Molecula de la cadena: 1
+300 Molecula de la cadena: 1
+400 Molecula de la cadena: 1

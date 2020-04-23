@@ -2,13 +2,13 @@ import numpy as np
 import move as mv
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-from ipywidgets import interact, interactive, fixed, interact_manual
-import ipywidgets as widgets
-import scipy.stats
+from scipy import stats
+import stats2 as ps
 import copy
 import os
 import sys
 import math
+import bisect
 
 def algoritmo_test(chain,d):
     g = chain
@@ -160,6 +160,32 @@ def give_me_a_random_number(phi):
     value_bins = np.searchsorted(cdf, values)
     random_from_cdf = bin_midpoints[value_bins]
     return(random_from_cdf)
+
+def calculate_end_to_end_optimize(data,L,w,true_chain):
+    tmp_chain = copy.deepcopy(true_chain)
+    x = data[0]
+    y = data[1]
+    z = data[2]
+    a = int(np.abs(tmp_chain[-1][0]-x)/L)
+    b = int(np.abs(tmp_chain[-1][1]-y)/L)
+    c = int(np.abs(tmp_chain[-1][2]-z)/L)
+    for m in range(0,a+1):
+        if tmp_chain[-1][0]-x > L/2:
+            x = x + L
+        if tmp_chain[-1][0]-x < -L/2:
+            x = x - L
+    for m in range(0,b+1):
+        if tmp_chain[-1][1]-y > L/2:
+            y = y + L
+        if tmp_chain[-1][1]-y < -L/2:
+            y = y - L
+    for m in range(0,c+1):
+        if tmp_chain[-1][2]-z > L/2:
+            z = z + L
+        if tmp_chain[-1][2]-z < -L/2:
+            z = z - L
+    tmp_chain.append([x,y,z])
+    return(np.linalg.norm(np.array(tmp_chain[0])-np.array(tmp_chain[-1]))**2, tmp_chain[-1] )
         
 def calculate_end_to_end_mean(data,L,get_chain=False):
     ee = 0
@@ -208,7 +234,7 @@ def get_label(x,y,z,rcut,L):
     z = math.floor(z/rcut)
     return(z*ratio**2 + y*ratio + x)
 
-def same_algorithm_restart(zz,N,M,phi,ee,tol,name,restart,pbc=True):
+def same_algorithm_restart(N,M,phi,ee,tol,name,restart,pbc=True):
     #N Numero de Cadenas
     #M Numero de moleculas
     Data = restart
@@ -234,6 +260,7 @@ def same_algorithm_restart(zz,N,M,phi,ee,tol,name,restart,pbc=True):
             label[t,h] = get_label(Data[t][h][0],Data[t][h][1],Data[t][h][2],rcut2,L)
     print("Re etiquetado completado")
     print("L:",L)
+
     while (j <= N-1):
         print("Cadena: " + str(j))
         ### Primera Molecula ###
@@ -246,9 +273,9 @@ def same_algorithm_restart(zz,N,M,phi,ee,tol,name,restart,pbc=True):
             x = math.floor(Data[j][0][0]/rcut2)
             y = math.floor(Data[j][0][1]/rcut2)
             z = math.floor(Data[j][0][2]/rcut2)
-            for cnt1 in range(-1,2):
-                for cnt2 in range(-1,2):
-                    for cnt3 in range(-1,2):
+            for cnt1 in range(-2,3):
+                for cnt2 in range(-2,3):
+                    for cnt3 in range(-2,3):
                         x_a=x_b=y_a=y_b=z_a=z_b = False
 
                         tmp_x = x + cnt3
@@ -258,18 +285,36 @@ def same_algorithm_restart(zz,N,M,phi,ee,tol,name,restart,pbc=True):
                         if tmp_x == ratio:
                             x_a = True
                             tmp_x = 0
+                        if tmp_x == ratio+1:
+                            x_a = True
+                            tmp_x = 1
+                        elif tmp_x == -2:
+                            x_b = True
+                            tmp_x = ratio-2
                         elif tmp_x == -1:
                             x_b = True
                             tmp_x = ratio-1
                         if tmp_y == ratio:
                             y_a = True
                             tmp_y = 0
+                        elif tmp_y == ratio+1:
+                            y_a = True
+                            tmp_y = 1
+                        elif tmp_y == -2:
+                            y_b = True
+                            tmp_y = ratio-2
                         elif tmp_y == -1:
                             y_b = True
                             tmp_y = ratio-1
                         if tmp_z == ratio:
                             z_a = True
                             tmp_z = 0
+                        elif tmp_z == ratio+1:
+                            z_a = True
+                            tmp_z = 1
+                        elif tmp_z == -2:
+                            z_b = True
+                            tmp_z = ratio-2
                         elif tmp_z == -1:
                             z_b = True
                             tmp_z = ratio-1
@@ -328,9 +373,9 @@ def same_algorithm_restart(zz,N,M,phi,ee,tol,name,restart,pbc=True):
             x = math.floor(Data[j][1][0]/rcut2)
             y = math.floor(Data[j][1][1]/rcut2)
             z = math.floor(Data[j][1][2]/rcut2)
-            for cnt1 in range(-1,2):
-                for cnt2 in range(-1,2):
-                    for cnt3 in range(-1,2):
+            for cnt1 in range(-2,3):
+                for cnt2 in range(-2,3):
+                    for cnt3 in range(-2,3):
                         x_a=x_b=y_a=y_b=z_a=z_b = False
 
                         tmp_x = x + cnt3
@@ -340,18 +385,36 @@ def same_algorithm_restart(zz,N,M,phi,ee,tol,name,restart,pbc=True):
                         if tmp_x == ratio:
                             x_a = True
                             tmp_x = 0
+                        if tmp_x == ratio+1:
+                            x_a = True
+                            tmp_x = 1
+                        elif tmp_x == -2:
+                            x_b = True
+                            tmp_x = ratio-2
                         elif tmp_x == -1:
                             x_b = True
                             tmp_x = ratio-1
                         if tmp_y == ratio:
                             y_a = True
                             tmp_y = 0
+                        elif tmp_y == ratio+1:
+                            y_a = True
+                            tmp_y = 1
+                        elif tmp_y == -2:
+                            y_b = True
+                            tmp_y = ratio-2
                         elif tmp_y == -1:
                             y_b = True
                             tmp_y = ratio-1
                         if tmp_z == ratio:
                             z_a = True
                             tmp_z = 0
+                        elif tmp_z == ratio+1:
+                            z_a = True
+                            tmp_z = 1
+                        elif tmp_z == -2:
+                            z_b = True
+                            tmp_z = ratio-2
                         elif tmp_z == -1:
                             z_b = True
                             tmp_z = ratio-1
@@ -415,30 +478,49 @@ def same_algorithm_restart(zz,N,M,phi,ee,tol,name,restart,pbc=True):
             x = math.floor(Data[j][2][0]/rcut2)
             y = math.floor(Data[j][2][1]/rcut2)
             z = math.floor(Data[j][2][2]/rcut2)
-            for cnt1 in range(-1,2):
-                for cnt2 in range(-1,2):
-                    for cnt3 in range(-1,2):
+            for cnt1 in range(-2,3):
+                for cnt2 in range(-2,3):
+                    for cnt3 in range(-2,3):
                         x_a=x_b=y_a=y_b=z_a=z_b = False
 
                         tmp_x = x + cnt3
                         tmp_y = y + cnt2
                         tmp_z = z + cnt1
 
+                                
                         if tmp_x == ratio:
                             x_a = True
                             tmp_x = 0
+                        if tmp_x == ratio+1:
+                            x_a = True
+                            tmp_x = 1
+                        elif tmp_x == -2:
+                            x_b = True
+                            tmp_x = ratio-2
                         elif tmp_x == -1:
                             x_b = True
                             tmp_x = ratio-1
                         if tmp_y == ratio:
                             y_a = True
                             tmp_y = 0
+                        elif tmp_y == ratio+1:
+                            y_a = True
+                            tmp_y = 1
+                        elif tmp_y == -2:
+                            y_b = True
+                            tmp_y = ratio-2
                         elif tmp_y == -1:
                             y_b = True
                             tmp_y = ratio-1
                         if tmp_z == ratio:
                             z_a = True
                             tmp_z = 0
+                        elif tmp_z == ratio+1:
+                            z_a = True
+                            tmp_z = 1
+                        elif tmp_z == -2:
+                            z_b = True
+                            tmp_z = ratio-2
                         elif tmp_z == -1:
                             z_b = True
                             tmp_z = ratio-1
@@ -468,8 +550,10 @@ def same_algorithm_restart(zz,N,M,phi,ee,tol,name,restart,pbc=True):
         intentos = 0
         angulos_test = []
         cadena_coeficiente = []
+        true_chain = None
         while(i <=M-1):
-            print(str(i)+" Molecula de la cadena: " + str(j))
+            if i%100==0:
+                print(str(i)+" Molecula de la cadena: " + str(j))
             drop = 1
             emn = 1     
             point_a = copy.deepcopy(Data[j][i-3])
@@ -522,7 +606,7 @@ def same_algorithm_restart(zz,N,M,phi,ee,tol,name,restart,pbc=True):
             Data[j][i][2] = lo*np.cos(Tho)
             Data[j][i] = mv.traslation(np.dot(np.linalg.inv(rot_matrix_x),np.dot(np.linalg.inv(rot_matrix_y),np.dot(np.linalg.inv(rot_matrix_z),Data[j][i]))),Data[j][i-1]) 
             s = True
-            angulos_test.append(r_phi)
+            #angulos_test.append(r_phi)
             while( Data[j][i][0] >=L or Data[j][i][1]>=L or Data[j][i][2]>=L or Data[j][i][0] <= 0 or Data[j][i][1]<=0 or Data[j][i][2]<=0 or s):
                 temp_10 = []
                 temp_10_index = []
@@ -531,7 +615,10 @@ def same_algorithm_restart(zz,N,M,phi,ee,tol,name,restart,pbc=True):
                 intentos = intentos + 1
                 flag = True
                 temporal_angles = []
+                temp_final_coord = []
                 counter = 0
+                #angulos_test = 
+                angulos_test.sort()
                 for temporal_angles in range(0,50):
                     r_phi = np.random.uniform(0,2*np.pi,1)[0]
                     tmp_molecule = [lo*np.sin(Tho)*np.cos(r_phi),
@@ -556,17 +643,25 @@ def same_algorithm_restart(zz,N,M,phi,ee,tol,name,restart,pbc=True):
                     Data[j][i][0] = tmp_molecule[0]
                     Data[j][i][1] = tmp_molecule[1]
                     Data[j][i][2] = tmp_molecule[2]
-                    angulos_test[-1] = r_phi
-                    
-                    bb_w = ((i+1)*ee/M - calculate_end_to_end(Data[j],L,i,False))**2
-                    bb_w2 = (scipy.stats.ks_2samp(phi,angulos_test)[1])**2
+                    #angulos_test[-1] = r_phi
+                    if true_chain == None:
+                        bb_w = ((i+1)*ee/M - calculate_end_to_end(Data[j],L,i,False))**2
+                    else:
+                        eec, coord = calculate_end_to_end_optimize(Data[j][i],L,i,true_chain)
+                        bb_w = ((i+1)*ee/M - eec)**2
+                        temp_final_coord.append(coord)
+                    new_list = angulos_test[:]
+                    bb_w2 = (ps.ks_2samp(phi,new_list,r_phi)[1])
                     temp_10_end_to_end.append(bb_w)
                     temp_10_index.append(bb_w2)
 
                 temp_10_end_to_end = np.array(temp_10_end_to_end)/((i+1)*ee/M)**2
                 cadena_coeficiente = (1+temp_10_end_to_end)/np.array(temp_10_index)
                 temp_10_end_to_end = np.ndarray.tolist((1-(1+temp_10_end_to_end)/np.array(temp_10_index))**2)
-                check = [[x,y,z,r,p] for y,x,z,r,p in sorted(zip(temp_10_end_to_end,temp_10_index,temp_angle,temp_10,cadena_coeficiente))]
+                if true_chain == None:
+                    check = [[x,y,z,r,p] for y,x,z,r,p in sorted(zip(temp_10_end_to_end,temp_10_index,temp_angle,temp_10,cadena_coeficiente))]
+                else:
+                    check = [[x,y,z,r,p,u] for y,x,z,r,p,u in sorted(zip(temp_10_end_to_end,temp_10_index,temp_angle,temp_10,cadena_coeficiente,temp_final_coord))]
                 for molecule_index in check:
                     s = False
                     Data[j][i][0] = molecule_index[3][0]
@@ -576,9 +671,10 @@ def same_algorithm_restart(zz,N,M,phi,ee,tol,name,restart,pbc=True):
                     x = math.floor(Data[j][i][0]/rcut2)
                     y = math.floor(Data[j][i][1]/rcut2)
                     z = math.floor(Data[j][i][2]/rcut2)
-                    for cnt1 in range(-1,2):
-                        for cnt2 in range(-1,2):
-                            for cnt3 in range(-1,2):
+                    
+                    for cnt1 in range(-2,3):
+                        for cnt2 in range(-2,3):
+                            for cnt3 in range(-2,3):
                                 x_a=x_b=y_a=y_b=z_a=z_b = False
                                 
                                 tmp_x = x + cnt3
@@ -588,18 +684,36 @@ def same_algorithm_restart(zz,N,M,phi,ee,tol,name,restart,pbc=True):
                                 if tmp_x == ratio:
                                     x_a = True
                                     tmp_x = 0
+                                if tmp_x == ratio+1:
+                                    x_a = True
+                                    tmp_x = 1
+                                elif tmp_x == -2:
+                                    x_b = True
+                                    tmp_x = ratio-2
                                 elif tmp_x == -1:
                                     x_b = True
                                     tmp_x = ratio-1
                                 if tmp_y == ratio:
                                     y_a = True
                                     tmp_y = 0
+                                elif tmp_y == ratio+1:
+                                    y_a = True
+                                    tmp_y = 1
+                                elif tmp_y == -2:
+                                    y_b = True
+                                    tmp_y = ratio-2
                                 elif tmp_y == -1:
                                     y_b = True
                                     tmp_y = ratio-1
                                 if tmp_z == ratio:
                                     z_a = True
                                     tmp_z = 0
+                                elif tmp_z == ratio+1:
+                                    z_a = True
+                                    tmp_z = 1
+                                elif tmp_z == -2:
+                                    z_b = True
+                                    tmp_z = ratio-2
                                 elif tmp_z == -1:
                                     z_b = True
                                     tmp_z = ratio-1
@@ -607,10 +721,6 @@ def same_algorithm_restart(zz,N,M,phi,ee,tol,name,restart,pbc=True):
                                 t_label = math.ceil(tmp_z*ratio**2 + tmp_y*ratio + tmp_x)
                                 t_label = np.where(label==t_label)
                                 points_in_space = np.array(Data[t_label])
-                                #print(np.array([Data[j][i][0],Data[j][i][1],Data[j][i][2]]))
-                                #print(Data[t_label])
-                                #print(len(points_in_space))
-                                #print(label)
                                 if x_a == True:
                                     points_in_space[:,0] = points_in_space[:,0] + L
                                 if x_b == True:
@@ -623,14 +733,12 @@ def same_algorithm_restart(zz,N,M,phi,ee,tol,name,restart,pbc=True):
                                     points_in_space[:,2] = points_in_space[:,2] + L
                                 if z_b == True:
                                     points_in_space[:,2] = points_in_space[:,2] - L
-                                v = np.linalg.norm(points_in_space-np.array([Data[j][i][0],Data[j][i][1],Data[j][i][2]]))
+                                v = np.sqrt(np.sum((points_in_space-np.array([Data[j][i][0],Data[j][i][1],Data[j][i][2]]))**2,axis=1))
                                 #print(points_in_space)
                                 #print(v)
                                 if np.sum(np.sqrt(np.sum((points_in_space-np.array([Data[j][i][0],Data[j][i][1],Data[j][i][2]]))**2,axis=1))>rcut2) < len(points_in_space):
-                                    #print(":c")
                                     s = True
                     if s == False:
-                        #print(molecule_index[1])
                         valores.append(molecule_index[4])
                         break
 
@@ -641,16 +749,22 @@ def same_algorithm_restart(zz,N,M,phi,ee,tol,name,restart,pbc=True):
                     drop = drop + np.random.randint(1,99)
                     break
             if emn == 1:
-                angulos_test[(i-3)] = molecule_index[2]
+                #angulos_test[(i-3)] = molecule_index[2]
+                angulos_test.append(molecule_index[2])
                 label[j,i] = get_label(Data[j][i][0],Data[j][i][1],Data[j][i][2],rcut2,L)
-                #print("pv: ",scipy.stats.ks_2samp(phi,angulos_test)[1])
                 i = i + 1
+                if true_chain == None:
+                    true_chain = calculate_end_to_end(Data[j],L,i,True)
+                else:
+                    true_chain.append(molecule_index[-1])
                 if drop > 0:
                     drop = drop - 1
             if emn == 0:
                 emn = 1
                 i = i - drop
-                angulos_test = angulos_test[0:(i-3)]
+                #angulos_test = angulos_test[0:(i-3)]
+                if true_chain != None:
+                    true_chain = true_chain[0:i]
                 if i < 3:
                     break
             if drop > 100:
@@ -660,15 +774,15 @@ def same_algorithm_restart(zz,N,M,phi,ee,tol,name,restart,pbc=True):
         if intentos < 10:
             target = calculate_end_to_end(Data[j],L)
             np.save("restart_"+name+".npy",Data)
-            #print("pv: ",scipy.stats.ks_2samp(phi,angulos_test)[1])
             print(target)
+            print(stats.ks_2samp(phi,angulos_test)[1])
             j= j + 1
-    return(Data,valores)
+    return(Data,label)
 
 if __name__ == '__main__':
     nombre_salida = "data"+sys.argv[1]+".npy"
     print(nombre_salida)
-    g = open("c.txt").read().split("\n")
+    g = open("/home/pibarra/generador_cadenas/repo_memoria/generador_cadenas/c.txt").read().split("\n")
     data = {}
     for c in g:
         temporal = c.split(" ")
@@ -699,6 +813,9 @@ if __name__ == '__main__':
         r = r + a
         theta = theta + b
         phi = phi + c
-    load_restart = np.load(sys.argv[4])
-    datita,_ = same_algorithm_restart(1,10,int(sys.argv[3]),phi,int(sys.argv[2]),0.05,sys.argv[1],load_restart,True)  
+
+    load_restart = np.load(sys.argv[5])
+    phi = np.sort(phi)
+
+    datita,_ = same_algorithm_restart(int(sys.argv[4]),int(sys.argv[3]),phi,int(sys.argv[2]),0.05,sys.argv[1],load_restart,True)  
     np.save(nombre_salida,datita)

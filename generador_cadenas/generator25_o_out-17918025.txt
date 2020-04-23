@@ -1,0 +1,264 @@
+data1_20_1000_300K_25.npy
+3
+(array([1787, 1798, 1803, 2236, 2241, 4593, 4600]),)
+4
+(array([3334]),)
+6
+(array([4075, 4080, 4085, 5023]),)
+7
+(array([7912, 7918, 7924]),)
+8
+(array([  28, 2399, 2405, 4030, 4041, 4051]),)
+9
+(array([5308, 5315, 5323]),)
+84.90802330583061
+L: 84.908
+Cadena: 0
+100 Molecula de la cadena: 0
+200 Molecula de la cadena: 0
+300 Molecula de la cadena: 0
+400 Molecula de la cadena: 0
+500 Molecula de la cadena: 0
+600 Molecula de la cadena: 0
+700 Molecula de la cadena: 0
+800 Molecula de la cadena: 0
+900 Molecula de la cadena: 0
+26531.736966624252
+0.9191374857178664
+Cadena: 1
+100 Molecula de la cadena: 1
+200 Molecula de la cadena: 1
+300 Molecula de la cadena: 1
+400 Molecula de la cadena: 1
+500 Molecula de la cadena: 1
+600 Molecula de la cadena: 1
+700 Molecula de la cadena: 1
+800 Molecula de la cadena: 1
+900 Molecula de la cadena: 1
+27501.158739356702
+0.779782173256966
+Cadena: 2
+100 Molecula de la cadena: 2
+200 Molecula de la cadena: 2
+300 Molecula de la cadena: 2
+400 Molecula de la cadena: 2
+500 Molecula de la cadena: 2
+600 Molecula de la cadena: 2
+700 Molecula de la cadena: 2
+800 Molecula de la cadena: 2
+900 Molecula de la cadena: 2
+24409.943880659805
+0.7442561087269502
+Cadena: 3
+100 Molecula de la cadena: 3
+200 Molecula de la cadena: 3
+300 Molecula de la cadena: 3
+400 Molecula de la cadena: 3
+500 Molecula de la cadena: 3
+600 Molecula de la cadena: 3
+700 Molecula de la cadena: 3
+800 Molecula de la cadena: 3
+900 Molecula de la cadena: 3
+25338.685955460398
+0.855530772466333
+Cadena: 4
+100 Molecula de la cadena: 4
+200 Molecula de la cadena: 4
+300 Molecula de la cadena: 4
+400 Molecula de la cadena: 4
+500 Molecula de la cadena: 4
+600 Molecula de la cadena: 4
+700 Molecula de la cadena: 4
+800 Molecula de la cadena: 4
+900 Molecula de la cadena: 4
+25541.432333783127
+0.7415113986018012
+Cadena: 5
+100 Molecula de la cadena: 5
+200 Molecula de la cadena: 5
+300 Molecula de la cadena: 5
+400 Molecula de la cadena: 5
+500 Molecula de la cadena: 5
+600 Molecula de la cadena: 5
+700 Molecula de la cadena: 5
+800 Molecula de la cadena: 5
+900 Molecula de la cadena: 5
+23985.589511555027
+0.8259585667863235
+Cadena: 6
+100 Molecula de la cadena: 6
+200 Molecula de la cadena: 6
+300 Molecula de la cadena: 6
+400 Molecula de la cadena: 6
+500 Molecula de la cadena: 6
+600 Molecula de la cadena: 6
+700 Molecula de la cadena: 6
+800 Molecula de la cadena: 6
+900 Molecula de la cadena: 6
+24756.83911513494
+0.8326230794882551
+Cadena: 7
+100 Molecula de la cadena: 7
+200 Molecula de la cadena: 7
+300 Molecula de la cadena: 7
+400 Molecula de la cadena: 7
+500 Molecula de la cadena: 7
+600 Molecula de la cadena: 7
+700 Molecula de la cadena: 7
+800 Molecula de la cadena: 7
+900 Molecula de la cadena: 7
+26091.604146820166
+0.7314151948155476
+Cadena: 8
+100 Molecula de la cadena: 8
+200 Molecula de la cadena: 8
+300 Molecula de la cadena: 8
+400 Molecula de la cadena: 8
+500 Molecula de la cadena: 8
+600 Molecula de la cadena: 8
+700 Molecula de la cadena: 8
+800 Molecula de la cadena: 8
+900 Molecula de la cadena: 8
+25427.510673885892
+0.4748927478130991
+Cadena: 9
+100 Molecula de la cadena: 9
+200 Molecula de la cadena: 9
+300 Molecula de la cadena: 9
+400 Molecula de la cadena: 9
+500 Molecula de la cadena: 9
+600 Molecula de la cadena: 9
+700 Molecula de la cadena: 9
+800 Molecula de la cadena: 9
+900 Molecula de la cadena: 9
+25587.897829547303
+0.735616984269137
+Cadena: 10
+100 Molecula de la cadena: 10
+200 Molecula de la cadena: 10
+300 Molecula de la cadena: 10
+400 Molecula de la cadena: 10
+500 Molecula de la cadena: 10
+600 Molecula de la cadena: 10
+700 Molecula de la cadena: 10
+800 Molecula de la cadena: 10
+900 Molecula de la cadena: 10
+25757.09856034749
+0.8057098283240804
+Cadena: 11
+100 Molecula de la cadena: 11
+200 Molecula de la cadena: 11
+300 Molecula de la cadena: 11
+400 Molecula de la cadena: 11
+500 Molecula de la cadena: 11
+600 Molecula de la cadena: 11
+700 Molecula de la cadena: 11
+800 Molecula de la cadena: 11
+900 Molecula de la cadena: 11
+25239.051389807053
+0.6845941782942769
+Cadena: 12
+:c
+100 Molecula de la cadena: 12
+200 Molecula de la cadena: 12
+300 Molecula de la cadena: 12
+400 Molecula de la cadena: 12
+500 Molecula de la cadena: 12
+600 Molecula de la cadena: 12
+700 Molecula de la cadena: 12
+800 Molecula de la cadena: 12
+900 Molecula de la cadena: 12
+25562.12819796289
+0.5261469246432803
+Cadena: 13
+100 Molecula de la cadena: 13
+200 Molecula de la cadena: 13
+300 Molecula de la cadena: 13
+400 Molecula de la cadena: 13
+500 Molecula de la cadena: 13
+600 Molecula de la cadena: 13
+700 Molecula de la cadena: 13
+800 Molecula de la cadena: 13
+900 Molecula de la cadena: 13
+25268.59332873181
+0.7466209302010242
+Cadena: 14
+100 Molecula de la cadena: 14
+200 Molecula de la cadena: 14
+300 Molecula de la cadena: 14
+400 Molecula de la cadena: 14
+500 Molecula de la cadena: 14
+600 Molecula de la cadena: 14
+700 Molecula de la cadena: 14
+800 Molecula de la cadena: 14
+900 Molecula de la cadena: 14
+25126.34659790045
+0.735899029155864
+Cadena: 15
+:c
+:c
+:c
+:c
+:c
+100 Molecula de la cadena: 15
+200 Molecula de la cadena: 15
+300 Molecula de la cadena: 15
+400 Molecula de la cadena: 15
+500 Molecula de la cadena: 15
+600 Molecula de la cadena: 15
+700 Molecula de la cadena: 15
+800 Molecula de la cadena: 15
+900 Molecula de la cadena: 15
+25048.60985057495
+0.8582899290751661
+Cadena: 16
+100 Molecula de la cadena: 16
+200 Molecula de la cadena: 16
+300 Molecula de la cadena: 16
+400 Molecula de la cadena: 16
+500 Molecula de la cadena: 16
+600 Molecula de la cadena: 16
+700 Molecula de la cadena: 16
+800 Molecula de la cadena: 16
+900 Molecula de la cadena: 16
+24974.388000025087
+0.5864778666128603
+Cadena: 17
+:c
+:c
+100 Molecula de la cadena: 17
+200 Molecula de la cadena: 17
+300 Molecula de la cadena: 17
+400 Molecula de la cadena: 17
+500 Molecula de la cadena: 17
+600 Molecula de la cadena: 17
+700 Molecula de la cadena: 17
+800 Molecula de la cadena: 17
+900 Molecula de la cadena: 17
+25433.680563913076
+0.6765446135313267
+Cadena: 18
+:c
+100 Molecula de la cadena: 18
+200 Molecula de la cadena: 18
+300 Molecula de la cadena: 18
+400 Molecula de la cadena: 18
+500 Molecula de la cadena: 18
+600 Molecula de la cadena: 18
+700 Molecula de la cadena: 18
+800 Molecula de la cadena: 18
+900 Molecula de la cadena: 18
+25137.44190631672
+0.6396553983910654
+Cadena: 19
+100 Molecula de la cadena: 19
+200 Molecula de la cadena: 19
+300 Molecula de la cadena: 19
+400 Molecula de la cadena: 19
+500 Molecula de la cadena: 19
+600 Molecula de la cadena: 19
+700 Molecula de la cadena: 19
+800 Molecula de la cadena: 19
+900 Molecula de la cadena: 19
+25330.70974325505
+0.46769655831998674

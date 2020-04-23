@@ -1,9 +1,11 @@
-N=10
 M=1000
 ee=25438
 T=300
-
-for i in {1..300}
+for N in {20,20}
 do
-	qsub -F "${i}_${M}_${T}K ${ee} ${M}" run.sh
+	for i in {1..1}
+	do
+        	sbatch run.sh "${i}_${N}_${M}_${T}K_25 ${ee} ${M} ${N}"
+		echo "${i}_${N}_${M}_${T}K_25_e"
+	done
 done
